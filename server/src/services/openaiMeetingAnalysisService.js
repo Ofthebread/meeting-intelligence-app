@@ -242,10 +242,7 @@ export const openaiMeetingAnalysisService = {
             throw error;
         }
 
-        if (
-            env.openaiApiKey === 'your_openai_api_key_here' ||
-            env.openaiApiKey.toLowerCase().includes('your_openai_api_key')
-        ) {
+        if (env.hasPlaceholderOpenAiKey) {
             const error = new Error(
                 'Replace the OPENAI_API_KEY placeholder in server/.env with a real API key.',
             );

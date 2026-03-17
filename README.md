@@ -73,11 +73,25 @@ A web application that records meetings, identifies speakers, summarizes key poi
 
 ### For Real AI Analysis
 
-Add your OpenAI API key to `server/.env`:
+Copy the example env file first:
+
+```bash
+cp server/.env.example server/.env
+```
+
+Then add your OpenAI API key to `server/.env`:
 
 ```
-OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_API_KEY=sk-...
 ```
+
+### API Key Safety
+
+- Keep `OPENAI_API_KEY` only in `server/.env`
+- Never put secrets in the frontend or in `VITE_*` variables
+- Never commit `.env` files
+- If a key is ever pasted into chat, screenshots, or code, revoke it immediately and create a new one
+- Use service-account or restricted keys for app backends when possible
 
 ### Environment Variables
 
