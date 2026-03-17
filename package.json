@@ -4,8 +4,8 @@
     "description": "Aplicación web que graba reuniones, identifica hablantes, resume puntos clave y sugiere acciones.",
     "main": "index.js",
     "scripts": {
-        "client": "npm run dev --prefix client",
-        "server": "npm run dev --prefix server",
+        "client": "cd client && npm run dev",
+        "server": "cd server && npm run dev",
         "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "keywords": [],
