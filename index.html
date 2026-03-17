@@ -1,0 +1,965 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Meeting Intelligence - AI-Powered Meeting Assistant&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>* { margin: 0; padding: 0; box-sizing: border-box; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--primary: #6366f1; --secondary: #ec4899; --accent: #8b5cf6;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--bg-dark: #0f172a; --bg-card: #1e293b; --bg-elevated: #334155;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--text-primary: #f8fafc; --text-secondary: #94a3b8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--success: #10b981; --warning: #f59e0b; --error: #ef4444;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-dark); color: var(--text-primary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh; overflow-x: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.bg-animation {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed; top: 0; left: 0; width: 100%; height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: -1; overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.bg-animation::before {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content: ''; position: absolute; width: 200%; height: 200%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background:<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: float 20s ease-in-out infinite;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes float {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0%, 100% { transform: translate(0, 0) rotate(0deg); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>33% { transform: translate(30px, -30px) rotate(120deg); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>66% { transform: translate(-20px, 20px) rotate(240deg); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1.5rem 2rem; display: flex; justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; background: rgba(15, 23, 42, 0.8);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: sticky; top: 0; z-index: 100;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.logo {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; gap: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem; font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--gradient-1); -webkit-background-clip: text;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-text-fill-color: transparent; background-clip: text;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.logo-icon {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 40px; height: 40px; background: var(--gradient-1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px; display: flex; align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center; -webkit-text-fill-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white; font-size: 1.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-links { display: flex; gap: 2rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-links a {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-secondary); text-decoration: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500; transition: all 0.3s ease; position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-links a:hover { color: var(--text-primary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-links a::after {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content: ''; position: absolute; bottom: -5px; left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 0; height: 2px; background: var(--gradient-1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: width 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.nav-links a:hover::after { width: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container { max-width: 1400px; margin: 0 auto; padding: 2rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hero { text-align: center; padding: 3rem 0; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hero h1 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-background-clip: text; -webkit-text-fill-color: transparent;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-clip: text; animation: fadeInUp 0.8s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hero p {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.25rem; color: var(--text-secondary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px; margin: 0 auto 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeInUp 0.8s ease 0.2s both;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeInUp {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(30px); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.recorder-section {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-card); border-radius: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 3rem; margin-bottom: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeInUp 0.8s ease 0.4s both;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.recorder-header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; margin-bottom: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.meeting-title-input {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-elevated); border: 2px solid transparent;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem 1.5rem; border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-primary); font-size: 1.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 400px; transition: all 0.3s ease; outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.meeting-title-input:focus {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-color: var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.meeting-title-input::placeholder { color: var(--text-secondary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.recording-status {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; gap: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.75rem 1.5rem; background: rgba(239, 68, 68, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50px; color: var(--error);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600; opacity: 0; transform: scale(0.9);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.recording-status.active { opacity: 1; transform: scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.recording-dot {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 12px; height: 12px; background: var(--error);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%; animation: pulse 1.5s ease-in-out infinite;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes pulse {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0%, 100% { opacity: 1; transform: scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>50% { opacity: 0.5; transform: scale(1.2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.visualizer-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 120px; background: var(--bg-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 16px; margin-bottom: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 4px; padding: 0 2rem; overflow: hidden; position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.visualizer-bar {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 6px; background: var(--gradient-1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 3px; transition: height 0.1s ease; height: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.visualizer-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute; top: 0; left: 0; right: 0; bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(15, 23, 42, 0.9); transition: opacity 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.visualizer-overlay.hidden { opacity: 0; pointer-events: none; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.visualizer-text { color: var(--text-secondary); font-size: 1rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.controls {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem 2rem; border: none; border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1rem; font-weight: 600; cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease; display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; gap: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-primary {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--gradient-1); color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 30px -5px rgba(99, 102, 241, 0.4);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-primary:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-2px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 20px 40px -5px rgba(99, 102, 241, 0.6);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-secondary {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-elevated); color: var(--text-primary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 2px solid rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-secondary:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-color: rgba(255, 255, 255, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-danger {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(239, 68, 68, 0.2); color: var(--error);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 2px solid rgba(239, 68, 68, 0.3);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn-danger:hover { background: rgba(239, 68, 68, 0.3); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.btn:disabled {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.5; cursor: not-allowed; transform: none !important;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stats-grid {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 1rem; margin-top: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stat-card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-dark); padding: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px; text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid rgba(255, 255, 255, 0.05);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stat-value {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 2rem; font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--primary); margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.stat-label { color: var(--text-secondary); font-size: 0.875rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.content-grid {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: grid; grid-template-columns: 1fr 1fr;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 2rem; margin-top: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 1024px) { .content-grid { grid-template-columns: 1fr; } }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-card); border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeInUp 0.8s ease 0.6s both;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.panel-header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; margin-bottom: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.panel-title {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.25rem; font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; gap: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.panel-icon {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 36px; height: 36px; border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.icon-transcript { background: rgba(99, 102, 241, 0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.icon-summary { background: rgba(16, 185, 129, 0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.icon-actions { background: rgba(245, 158, 11, 0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.icon-speakers { background: rgba(236, 72, 153, 0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 500px; overflow-y: auto; padding-right: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-container::-webkit-scrollbar { width: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-container::-webkit-scrollbar-track {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-dark); border-radius: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-container::-webkit-scrollbar-thumb {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-elevated); border-radius: 3px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; gap: 1rem; margin-bottom: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem; background: var(--bg-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px; border-left: 3px solid var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease; animation: slideIn 0.5s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes slideIn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateX(-20px); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateX(0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-item:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-elevated); transform: translateX(5px);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-avatar {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 40px; height: 40px; border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700; font-size: 0.875rem; flex-shrink: 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-1 { background: var(--gradient-1); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-2 { background: var(--gradient-2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-3 { background: var(--gradient-3); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-4 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-content { flex: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-header {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-name { font-weight: 600; color: var(--text-primary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.timestamp {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.75rem; color: var(--text-secondary); font-family: monospace;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.transcript-text { color: var(--text-secondary); line-height: 1.6; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-content { color: var(--text-secondary); line-height: 1.8; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-content h3 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-primary); margin: 1.5rem 0 0.75rem; font-size: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-content ul { margin-left: 1.5rem; margin-bottom: 1rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.summary-content li { margin-bottom: 0.5rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-list { display: flex; flex-direction: column; gap: 1rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: flex-start; gap: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem; background: var(--bg-dark);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px; border-left: 3px solid var(--warning);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-item:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-elevated); transform: translateX(5px);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-checkbox {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 24px; height: 24px; border: 2px solid var(--warning);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 6px; display: flex; align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center; cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease; flex-shrink: 0; margin-top: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-checkbox:hover { background: rgba(245, 158, 11, 0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-checkbox.checked { background: var(--success); border-color: var(--success); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-content { flex: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-text {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text-primary); margin-bottom: 0.25rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-text.completed { text-decoration: line-through; opacity: 0.5; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-meta {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; gap: 1rem; font-size: 0.875rem; color: var(--text-secondary);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.action-assignee { color: var(--secondary); font-weight: 600; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-stats { display: flex; flex-direction: column; gap: 1rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-stat-item {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; gap: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem; background: var(--bg-dark); border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-info { flex: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-name-stat { font-weight: 600; margin-bottom: 0.25rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-time { font-size: 0.875rem; color: var(--text-secondary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-bar-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 150px; height: 8px; background: var(--bg-elevated);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px; overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-bar { height: 100%; border-radius: 4px; transition: width 1s ease; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.speaker-percentage {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700; color: var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-width: 50px; text-align: right;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed; top: 0; left: 0; right: 0; bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: rgba(15, 23, 42, 0.95); display: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column; z-index: 1000; backdrop-filter: blur(10px);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-overlay.active { display: flex; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-spinner {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 80px; height: 80px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 4px solid rgba(99, 102, 241, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-top-color: var(--primary); border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: spin 1s linear infinite; margin-bottom: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes spin { to { transform: rotate(360deg); } }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-text { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-subtext { color: var(--text-secondary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-steps {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 2rem; display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column; gap: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-step {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; gap: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.75rem 1.5rem; background: var(--bg-card);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px; opacity: 0.5; transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-step.active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1; background: rgba(99, 102, 241, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--primary);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.processing-step.completed {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1; background: rgba(16, 185, 129, 0.2);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--success);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.step-icon {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 24px; height: 24px; border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.step-icon.pending { background: var(--bg-elevated); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.step-icon.active { background: var(--primary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.step-icon.completed { background: var(--success); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.empty-state { text-align: center; padding: 3rem; color: var(--text-secondary); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.hero h1 { font-size: 2rem; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.recorder-section { padding: 1.5rem; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.meeting-title-input { width: 100%; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.recorder-header { flex-direction: column; gap: 1rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toast {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed; bottom: 2rem; right: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: var(--bg-card); color: var(--text-primary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem 1.5rem; border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid rgba(255, 255, 255, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; align-items: center; gap: 0.75rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(400px); opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease; z-index: 1001;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toast.show { transform: translateX(0); opacity: 1; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toast.success { border-left: 4px solid var(--success); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toast.error { border-left: 4px solid var(--error); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.toast.info { border-left: 4px solid var(--primary); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="bg-animation"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="logo"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="logo-icon"&gt;🎙️&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Meeting Intelligence</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;nav class="nav-links"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#record"&gt;Record&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#transcript"&gt;Transcript&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#insights"&gt;Insights&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#history"&gt;History&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="hero"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1&gt;AI-Powered Meeting Assistant&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Record, transcribe, identify speakers, and extract actionable insights from your meetings automatically.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="recorder-section" id="record"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="recorder-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="text" class="meeting-title-input" placeholder="Enter meeting title..." id="meetingTitle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="recording-status" id="recordingStatus"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="recording-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;Recording&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span id="recordingTime"&gt;00:00&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="visualizer-container" id="visualizer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="visualizer-overlay" id="visualizerOverlay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="visualizer-text"&gt;Click Start Recording to begin&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn btn-primary" id="startBtn" onclick="startRecording()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;⏺️&lt;/span&gt; Start Recording</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn btn-danger" id="stopBtn" onclick="stopRecording()" disabled&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;⏹️&lt;/span&gt; Stop Recording</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn btn-secondary" id="pauseBtn" onclick="pauseRecording()" disabled&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;⏸️&lt;/span&gt; Pause</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="btn btn-secondary" onclick="simulateUpload()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;📁&lt;/span&gt; Upload Audio</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="stats-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="durationStat"&gt;00:00&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Duration&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="speakersStat"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Speakers&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="transcriptStat"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Words&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="stat-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-value" id="actionsStat"&gt;0&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="stat-label"&gt;Action Items&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="content-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="panel" id="transcript"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="panel-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="panel-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="panel-icon icon-transcript"&gt;📝&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Live Transcript</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="exportTranscript()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Export</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="transcript-container" id="transcriptContainer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="empty-icon"&gt;🎙️&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p&gt;No transcript yet. Start recording to see live transcription.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="panel" id="insights"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="panel-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="panel-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="panel-icon icon-summary"&gt;✨&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>AI Summary</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="summary-content" id="summaryContent"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="empty-icon"&gt;✨&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p&gt;AI-generated summary will appear here after processing.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="panel-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="panel-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="panel-icon icon-actions"&gt;⚡&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Action Items</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="action-list" id="actionList"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="empty-icon"&gt;⚡&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p&gt;Action items will be extracted automatically from your meeting.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="panel-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="panel-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="panel-icon icon-speakers"&gt;👥&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Speaker Analysis</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="speaker-stats" id="speakerStats"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="empty-state"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="empty-icon"&gt;👥&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p&gt;Speaker statistics will appear during or after recording.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="processing-overlay" id="processingOverlay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="processing-spinner"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="processing-text"&gt;Processing Meeting...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="processing-subtext"&gt;AI is analyzing your meeting recording&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="processing-steps"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="processing-step" id="step1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="step-icon pending"&gt;1&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;Transcribing audio to text&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="processing-step" id="step2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="step-icon pending"&gt;2&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;Identifying different speakers&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="processing-step" id="step3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="step-icon pending"&gt;3&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;Generating meeting summary&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="processing-step" id="step4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="step-icon pending"&gt;4&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;Extracting action items&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="toast" id="toast"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="toastIcon"&gt;✓&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span id="toastMessage"&gt;Operation successful&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isRecording = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isPaused = false;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let recordingStartTime = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let recordingTimer = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let visualizerInterval = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let mediaRecorder = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let audioChunks = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let speakers = new Map();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let transcriptData = [];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let actionItems = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const demoTranscript = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Sarah Chen", speakerId: 1, text: "Good morning everyone. Let's start with our Q4 planning meeting. Today we need to finalize the roadmap for the new AI features.", time: "00:00" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Mike Ross", speakerId: 2, text: "Thanks Sarah. I've prepared the technical specifications document. We should be able to implement the speaker diarization module within two weeks.", time: "00:45" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Sarah Chen", speakerId: 1, text: "That's great Mike. What about the summarization engine? That's critical for our enterprise clients.", time: "01:20" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Emily Watson", speakerId: 3, text: "I've been testing the LLM integration. The accuracy is at 94% but we need to optimize for real-time processing.", time: "01:45" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Mike Ross", speakerId: 2, text: "Emily, can you create a benchmark report by Friday? We need those numbers for the stakeholder presentation.", time: "02:30" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Emily Watson", speakerId: 3, text: "Absolutely. I'll also include the latency metrics we've been tracking.", time: "02:50" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Sarah Chen", speakerId: 1, text: "Perfect. Let's also discuss the pricing strategy. David, what's your take on the enterprise tier?", time: "03:10" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "David Kim", speakerId: 4, text: "I propose we start at $49 per user per month for the basic tier and $99 for enterprise with unlimited meetings.", time: "03:25" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Sarah Chen", speakerId: 1, text: "That sounds reasonable. Let's vote on this proposal. All in favor?", time: "04:00" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Mike Ross", speakerId: 2, text: "I support it. We should also consider adding a free tier for individual users to drive adoption.", time: "04:15" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "David Kim", speakerId: 4, text: "Good point Mike. I'll update the pricing deck and send it to the team by tomorrow morning.", time: "04:30" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Sarah Chen", speakerId: 1, text: "Excellent. Any other topics before we wrap up?", time: "04:50" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Emily Watson", speakerId: 3, text: "Just one thing - we need to schedule a security review for the voice data storage. I recommend next Tuesday.", time: "05:05" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ speaker: "Sarah Chen", speakerId: 1, text: "Agreed. I'll send the calendar invite. Thanks everyone for a productive meeting!", time: "05:20" }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const demoSummary = `</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;🎯 Meeting Overview&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Q4 planning meeting focused on AI feature roadmap, technical implementation timelines, and pricing strategy. All key decisions were made with clear action items assigned.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;📊 Key Decisions&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;Speaker diarization module implementation: 2 weeks timeline approved&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;Enterprise pricing set at $99/user/month, Basic tier at $49/user/month&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;Free tier for individual users approved to drive adoption&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;Security review scheduled for next Tuesday&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;💡 Technical Updates&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;LLM integration accuracy at 94% - optimization needed for real-time processing&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;Latency metrics being tracked for performance improvements&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;li&gt;Summarization engine prioritized for enterprise clients&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;⏭️ Next Meeting&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Security review scheduled for Tuesday. Stakeholder presentation pending benchmark report completion.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const demoActions = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ text: "Create benchmark report with latency metrics", assignee: "Emily Watson", due: "Friday", completed: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ text: "Update pricing deck with free tier option", assignee: "David Kim", due: "Tomorrow", completed: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ text: "Send security review calendar invite", assignee: "Sarah Chen", due: "Today", completed: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ text: "Optimize LLM for real-time processing", assignee: "Emily Watson", due: "Next Week", completed: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ text: "Prepare stakeholder presentation materials", assignee: "Mike Ross", due: "Wednesday", completed: false }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function initVisualizer() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('visualizer');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const overlay = document.getElementById('visualizerOverlay');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.appendChild(overlay);</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; 50; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const bar = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bar.className = 'visualizer-bar';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bar.style.height = '10px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>container.appendChild(bar);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function animateVisualizer() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const bars = document.querySelectorAll('.visualizer-bar');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visualizerInterval = setInterval(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bars.forEach(bar =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const height = Math.random() * 100 + 10;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>bar.style.height = height + 'px';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 100);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function stopVisualizer() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>clearInterval(visualizerInterval);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const bars = document.querySelectorAll('.visualizer-bar');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bars.forEach(bar =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bar.style.height = '10px';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function startRecording() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const stream = await navigator.mediaDevices.getUserMedia({ audio: true });</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mediaRecorder = new MediaRecorder(stream);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>audioChunks = [];</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>mediaRecorder.ondataavailable = (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>audioChunks.push(event.data);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>mediaRecorder.onstop = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>processRecording(audioBlob);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>mediaRecorder.start();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isRecording = true;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordingStartTime = Date.now();</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('startBtn').disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('stopBtn').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pauseBtn').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('recordingStatus').classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('visualizerOverlay').classList.add('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>animateVisualizer();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>startTimer();</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>showToast('Recording started', 'success');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>simulateLiveTranscript();</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showToast('Microphone access denied. Using demo mode.', 'error');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>startDemoMode();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function startDemoMode() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isRecording = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>recordingStartTime = Date.now();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('startBtn').disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('stopBtn').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('pauseBtn').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('recordingStatus').classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('visualizerOverlay').classList.add('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>animateVisualizer();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>startTimer();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>simulateLiveTranscript();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function stopRecording() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (mediaRecorder &amp;&amp; mediaRecorder.state !== 'inactive') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mediaRecorder.stop();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mediaRecorder.stream.getTracks().forEach(track =&gt; track.stop());</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>isRecording = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>isPaused = false;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>clearInterval(recordingTimer);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>stopVisualizer();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('startBtn').disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('stopBtn').disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('pauseBtn').disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('recordingStatus').classList.remove('active');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('visualizerOverlay').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('pauseBtn').innerHTML = '&lt;span&gt;⏸️&lt;/span&gt; Pause';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>showProcessingOverlay();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function pauseRecording() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!isRecording) return;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>isPaused = !isPaused;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isPaused) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (mediaRecorder) mediaRecorder.pause();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>clearInterval(recordingTimer);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopVisualizer();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pauseBtn').innerHTML = '&lt;span&gt;▶️&lt;/span&gt; Resume';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showToast('Recording paused', 'info');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (mediaRecorder) mediaRecorder.resume();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>startTimer();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>animateVisualizer();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('pauseBtn').innerHTML = '&lt;span&gt;⏸️&lt;/span&gt; Pause';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showToast('Recording resumed', 'success');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function startTimer() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>recordingTimer = setInterval(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const seconds = (elapsed % 60).toString().padStart(2, '0');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const timeStr = `${minutes}:${seconds}`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('recordingTime').textContent = timeStr;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('durationStat').textContent = timeStr;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 1000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>let transcriptIndex = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function simulateLiveTranscript() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('transcriptContainer');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (transcriptIndex === 0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>container.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (transcriptIndex &lt; demoTranscript.length &amp;&amp; isRecording) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const item = demoTranscript[transcriptIndex];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>addTranscriptItem(item);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptIndex++;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateStats();</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; simulateLiveTranscript(), 3000);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function addTranscriptItem(item) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const container = document.getElementById('transcriptContainer');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const div = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>div.className = 'transcript-item';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>div.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="speaker-avatar speaker-${item.speakerId}"&gt;${item.speaker.charAt(0)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="transcript-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="transcript-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="speaker-name"&gt;${item.speaker}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="timestamp"&gt;${item.time}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="transcript-text"&gt;${item.text}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>container.scrollTop = container.scrollHeight;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!speakers.has(item.speaker)) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>speakers.set(item.speaker, { count: 0, time: 0 });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>speakers.get(item.speaker).count++;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>transcriptData.push(item);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateStats() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('speakersStat').textContent = speakers.size;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const wordCount = transcriptData.reduce((acc, item) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return acc + item.text.split(' ').length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('transcriptStat').textContent = wordCount;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function showProcessingOverlay() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const overlay = document.getElementById('processingOverlay');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overlay.classList.add('active');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const steps = [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'step1', delay: 1000 },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'step2', delay: 2500 },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'step3', delay: 4000 },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ id: 'step4', delay: 5500 }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>steps.forEach((step, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const el = document.getElementById(step.id);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>el.classList.remove('active');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>el.classList.add('completed');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>el.querySelector('.step-icon').textContent = '✓';</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (index &lt; steps.length - 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>document.getElementById(steps[index + 1].id).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>document.getElementById(steps[index + 1].id).querySelector('.step-icon').textContent = '●';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, step.delay);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>overlay.classList.remove('active');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>displayResults();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showToast('Meeting processed successfully!', 'success');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 7000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function displayResults() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('summaryContent').innerHTML = demoSummary;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const actionList = document.getElementById('actionList');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>actionList.innerHTML = '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>demoActions.forEach((action, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const div = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>div.className = 'action-item';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>div.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="action-checkbox" onclick="toggleAction(${index})"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="action-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="action-text"&gt;${action.text}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="action-meta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="action-assignee"&gt;@${action.assignee}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span&gt;📅 ${action.due}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>actionList.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('actionsStat').textContent = demoActions.length;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const speakerStats = document.getElementById('speakerStats');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>speakerStats.innerHTML = '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const totalSpeaking = transcriptData.length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const speakerData = Array.from(speakers.entries()).map(([name, data]) =&gt; ({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>name,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>count: data.count,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>percentage: Math.round((data.count / totalSpeaking) * 100)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}));</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent)', 'var(--warning)'];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>speakerData.forEach((speaker, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const div = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>div.className = 'speaker-stat-item';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>div.innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="speaker-avatar speaker-${index + 1}"&gt;${speaker.name.charAt(0)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="speaker-info"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="speaker-name-stat"&gt;${speaker.name}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="speaker-time"&gt;${speaker.count} contributions&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="speaker-bar-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="speaker-bar" style="width: ${speaker.percentage}%; background: ${colors[index % colors.length]}"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="speaker-percentage"&gt;${speaker.percentage}%&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>speakerStats.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function toggleAction(index) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const checkboxes = document.querySelectorAll('.action-checkbox');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const texts = document.querySelectorAll('.action-text');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const checkbox = checkboxes[index];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const text = texts[index];</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>checkbox.classList.toggle('checked');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text.classList.toggle('completed');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (checkbox.classList.contains('checked')) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>checkbox.innerHTML = '✓';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showToast('Action item completed!', 'success');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>checkbox.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function simulateUpload() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>showToast('Upload feature - select an audio file to process', 'info');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function exportTranscript() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const title = document.getElementById('meetingTitle').value || 'Meeting';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const data = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: title,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>date: new Date().toISOString(),</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcript: transcriptData,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>summary: demoSummary,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>actionItems: demoActions,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>speakers: Array.from(speakers.entries())</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const url = URL.createObjectURL(blob);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const a = document.createElement('a');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.href = url;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.download = `${title.replace(/\\s+/g, '_')}_transcript.json`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>a.click();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>showToast('Transcript exported successfully!', 'success');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function showToast(message, type = 'info') {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const toast = document.getElementById('toast');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const icon = document.getElementById('toastIcon');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const msg = document.getElementById('toastMessage');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>toast.className = `toast ${type}`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>msg.textContent = message;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (type === 'success') icon.textContent = '✓';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>else if (type === 'error') icon.textContent = '✕';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>else icon.textContent = 'ℹ';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>toast.classList.add('show');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>toast.classList.remove('show');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 3000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function processRecording(audioBlob) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>console.log('Processing audio blob:', audioBlob.size, 'bytes');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>initVisualizer();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
