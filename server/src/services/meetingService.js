@@ -12,16 +12,19 @@ export const meetingService = {
         return meetings.find((meeting) => meeting.id === id) || null;
     },
 
-    create(title = 'Untitled meeting') {
+    create(title = 'Untitled meeting', recording = null) {
         const newMeeting = {
             id: generateId(),
             title,
             status: 'created',
             createdAt: new Date().toISOString(),
+            recording,
             transcript: [],
             summary: null,
             actions: [],
             speakerStats: [],
+            speakerAnalysis: null,
+            analysisMode: null,
         };
 
         meetings.push(newMeeting);
@@ -50,10 +53,33 @@ export const meetingService = {
         const demoResult = buildDemoMeetingResult(meeting.title);
 
         meeting.status = 'completed';
+        meeting.analysisMode = 'demo';
         meeting.transcript = demoResult.transcript;
         meeting.summary = demoResult.summary;
         meeting.actions = demoResult.actions;
         meeting.speakerStats = demoResult.speakerStats;
+        meeting.speakerAnalysis = {
+            mode: 'demo',
+            note: 'This speaker breakdown comes from mock demo data.',
+            count: demoResult.speakerStats.length,
+        };
+        meeting.processedAt = new Date().toISOString();
+
+        return meeting;
+    },
+
+    completeAnalysis(id, analysisResult, analysisMode = 'live') {
+        const meeting = meetings.find((item) => item.id === id);
+
+        if (!meeting) return null;
+
+        meeting.status = 'completed';
+        meeting.analysisMode = analysisMode;
+        meeting.transcript = analysisResult.transcript;
+        meeting.summary = analysisResult.summary;
+        meeting.actions = analysisResult.actions;
+        meeting.speakerStats = analysisResult.speakerStats;
+        meeting.speakerAnalysis = analysisResult.speakerAnalysis || null;
         meeting.processedAt = new Date().toISOString();
 
         return meeting;

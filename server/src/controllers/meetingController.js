@@ -1,4 +1,5 @@
 import { meetingService } from '../services/meetingService.js';
+import { openaiMeetingAnalysisService } from '../services/openaiMeetingAnalysisService.js';
 import { validateMeetingTitle } from '../utils/validators.js';
 
 export const meetingController = {
@@ -36,7 +37,7 @@ export const meetingController = {
     },
 
     createMeeting(req, res) {
-        const { title } = req.body;
+        const { title, recording } = req.body;
         const validation = validateMeetingTitle(title);
 
         if (!validation.valid) {
@@ -46,7 +47,7 @@ export const meetingController = {
             });
         }
 
-        const meeting = meetingService.create(title?.trim());
+        const meeting = meetingService.create(title?.trim(), recording || null);
 
         res.status(201).json({
             ok: true,
@@ -73,6 +74,50 @@ export const meetingController = {
         });
     },
 
+    async analyzeMeeting(req, res, next) {
+        try {
+            const { title } = req.body;
+            const validation = validateMeetingTitle(title);
+
+            if (!validation.valid) {
+                return res.status(400).json({
+                    ok: false,
+                    message: validation.message,
+                });
+            }
+
+            if (!req.file) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'Audio file is required',
+                });
+            }
+
+            const meeting = meetingService.create(title?.trim(), {
+                originalName: req.file.originalname,
+                mimeType: req.file.mimetype,
+                sizeBytes: req.file.size,
+            });
+
+            meetingService.markAsProcessing(meeting.id);
+
+            const analysisResult = await openaiMeetingAnalysisService.analyzeMeeting({
+                title: meeting.title,
+                file: req.file,
+            });
+
+            const completedMeeting = meetingService.completeAnalysis(meeting.id, analysisResult, 'live');
+
+            res.status(201).json({
+                ok: true,
+                message: 'Meeting analyzed successfully',
+                data: completedMeeting,
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+
     exportMeeting(req, res) {
         const { id } = req.params;
         const meeting = meetingService.getById(id);
@@ -95,6 +140,7 @@ export const meetingController = {
                 summary: meeting.summary,
                 actions: meeting.actions,
                 speakerStats: meeting.speakerStats,
+                speakerAnalysis: meeting.speakerAnalysis || null,
             },
         });
     },

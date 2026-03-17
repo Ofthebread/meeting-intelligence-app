@@ -1,37 +1,163 @@
-# 🎙️ Meeting Intelligence App
+# 🎙️ Meeting Intelligence App - MVP
 
-Aplicación web que graba reuniones, identifica hablantes, resume puntos clave y sugiere acciones.
+A web application that records meetings, identifies speakers, summarizes key points, and suggests action items.
 
-## ✨ Características
+## ✨ Features
 
-- 🔴 Grabación de audio en tiempo real
-- 👥 Identificación automática de hablantes (diarización)
-- 📝 Transcripción en vivo
-- 🤖 Resumen automático con IA
-- ⚡ Extracción de action items
-- 📊 Análisis de participación por hablante
+- 🔴 **Audio Recording** - Record meetings directly in the browser
+- 👥 **Speaker Identification** - Separate speakers in transcripts (demo mode)
+- 📝 **Live Transcription** - Real-time transcript display
+- 🤖 **AI Summary** - Automatic key point extraction and summarization
+- ⚡ **Action Items** - Suggested next steps with owners and due dates
+- 📊 **Speaker Analytics** - Participation statistics and speaking time
+- 💾 **Meeting History** - Save and revisit past meetings
+- 📤 **Export** - Download meeting data as JSON
 
-## 🚀 Demo en vivo
+## 🚀 Quick Start
 
-[Ver app funcionando](https://TU_USUARIO.github.io/meeting-intelligence-app/meeting_intelligence_app.html)
+### Prerequisites
 
-## 🛠 Tecnologías
+- Node.js 18+
+- npm or yarn
 
-- HTML5, CSS3, JavaScript vanilla
-- Web Audio API
-- MediaRecorder API
-- Diseño responsive y animaciones CSS
+### Installation
 
-## 📦 Uso
+1. **Clone and navigate to the project:**
 
-1. Abre la app en tu navegador
-2. Permite acceso al micrófono
-3. Click en "Start Recording"
-4. ¡La magia sucede automáticamente!
+    ```bash
+    cd meeting-intelligence-app
+    ```
 
-## 🔮 Roadmap
+2. **Install server dependencies:**
 
-- [ ] Integración con Whisper API
-- [ ] Backend para procesamiento en cloud
-- [ ] Soporte para múltiples idiomas
-- [ ] Exportar a PDF/Word
+    ```bash
+    cd server
+    npm install
+    ```
+
+3. **Install client dependencies:**
+
+    ```bash
+    cd ../client
+    npm install
+    ```
+
+4. **Start the backend server:**
+
+    ```bash
+    cd ../server
+    npm run dev
+    ```
+
+    Server runs on http://localhost:4000
+
+5. **Start the frontend (in a new terminal):**
+    ```bash
+    cd ../client
+    npm run dev
+    ```
+    Client runs on http://localhost:5173
+
+## 🎯 How to Use
+
+1. **Open the app** at http://localhost:5173
+2. **Enter a meeting title** in the text field
+3. **Click "Start recording"** and grant microphone permissions
+4. **Record your meeting** - the timer shows recording duration
+5. **Click "Stop recording"** when finished
+6. **Choose analysis mode:**
+    - **"Run demo analysis"** - Uses sample data (works without API keys)
+    - **"Analyze meeting"** - Uploads audio for real AI processing (requires OpenAI API key)
+
+## 🔧 Configuration
+
+### For Real AI Analysis
+
+Add your OpenAI API key to `server/.env`:
+
+```
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+### Environment Variables
+
+- `PORT` - Server port (default: 4000)
+- `CLIENT_URL` - Frontend URL (default: http://localhost:5173)
+- `OPENAI_API_KEY` - Your OpenAI API key (optional for demo mode)
+
+## 🏗️ Architecture
+
+### Frontend (React + Vite)
+
+- **Audio Recording:** Web Audio API + MediaRecorder
+- **State Management:** React hooks
+- **Styling:** Custom CSS with animations
+- **API Calls:** Fetch API
+
+### Backend (Node.js + Express)
+
+- **Audio Processing:** Multer for file uploads
+- **AI Integration:** OpenAI Whisper (transcription) + GPT-4 (analysis)
+- **Data Storage:** In-memory (for MVP)
+- **File Storage:** Local uploads directory
+
+## 📁 Project Structure
+
+```
+meeting-intelligence-app/
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── App.jsx        # Main app component
+│   │   └── App.css        # Styling
+│   └── package.json
+├── server/                 # Node.js backend
+│   ├── src/
+│   │   ├── controllers/   # Route handlers
+│   │   ├── services/      # Business logic
+│   │   ├── routes/        # API routes
+│   │   └── data/          # Demo data
+│   └── package.json
+└── README.md
+```
+
+## 🔮 MVP Limitations
+
+- **Storage:** Meetings stored in memory (lost on restart)
+- **AI:** Real analysis requires OpenAI API key
+- **Speaker ID:** Demo mode only (no real diarization)
+- **Audio:** No audio compression or cloud storage
+- **Auth:** No user authentication
+
+## 🚧 Roadmap (Future Enhancements)
+
+- [ ] Persistent database storage
+- [ ] Real-time speaker diarization
+- [ ] Cloud audio storage (AWS S3)
+- [ ] User authentication
+- [ ] Meeting sharing and collaboration
+- [ ] Mobile app
+- [ ] Integration with calendar apps
+- [ ] Export to PDF/Word formats
+
+## 🛠️ Development
+
+### Adding New Features
+
+1. Backend changes: Add routes in `server/src/routes/`
+2. Frontend changes: Modify `client/src/App.jsx`
+3. Test both servers are running
+
+### API Endpoints
+
+- `GET /api/health` - Health check
+- `POST /api/meetings` - Create meeting
+- `GET /api/meetings` - List meetings
+- `GET /api/meetings/:id` - Get meeting details
+- `POST /api/meetings/analyze` - Analyze with audio upload
+- `POST /api/meetings/:id/process-demo` - Demo analysis
+- `PATCH /api/meetings/:id` - Update meeting
+- `GET /api/meetings/:id/export` - Export meeting data
+
+## 📄 License
+
+This project is for educational and demonstration purposes.
