@@ -4,9 +4,12 @@ dotenv.config();
 
 const openaiApiKey = process.env.OPENAI_API_KEY || '';
 const assemblyAiApiKey = process.env.ASSEMBLYAI_API_KEY || '';
+const audioIntelligenceApiUrl =
+    process.env.AUDIO_INTELLIGENCE_API_URL || 'http://127.0.0.1:4100';
 const placeholderPatterns = [
     'your_openai_api_key',
     'your_assemblyai_api_key',
+    'your_audio_intelligence_api_url',
     'replace_me',
     'changeme',
 ];
@@ -28,6 +31,7 @@ export const env = {
     host: process.env.HOST || '127.0.0.1',
     clientUrl: process.env.CLIENT_URL || 'http://127.0.0.1:5173',
     nodeEnv: process.env.NODE_ENV || 'development',
+    audioIntelligenceApiUrl,
     openaiApiKey,
     assemblyAiApiKey,
     hasPlaceholderOpenAiKey,

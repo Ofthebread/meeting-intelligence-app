@@ -1,5 +1,5 @@
 import { meetingService } from '../services/meetingService.js';
-import { assemblyAiMeetingAnalysisService } from '../services/assemblyAiMeetingAnalysisService.js';
+import { audioIntelligenceService } from '../services/audioIntelligenceService.js';
 import { validateMeetingTitle } from '../utils/validators.js';
 
 export const meetingController = {
@@ -101,7 +101,7 @@ export const meetingController = {
 
             meetingService.markAsProcessing(meeting.id);
 
-            const analysisResult = await assemblyAiMeetingAnalysisService.analyzeMeeting({
+            const analysisResult = await audioIntelligenceService.analyzeMeeting({
                 title: meeting.title,
                 file: req.file,
             });

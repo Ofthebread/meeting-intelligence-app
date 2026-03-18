@@ -4,9 +4,10 @@
     "description": "Aplicación web que graba reuniones, identifica hablantes, resume puntos clave y sugiere acciones.",
     "main": "index.js",
     "scripts": {
+        "audio-api": "cd ../../audio-intelligence-api && npm run dev",
         "client": "cd client && npm run dev",
         "server": "cd server && npm run dev",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently -n audio,server,client \"npm run audio-api\" \"npm run server\" \"npm run client\""
     },
     "keywords": [],
     "author": "",

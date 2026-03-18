@@ -13,6 +13,24 @@ function getSpeakerTone(index) {
   return `tone-${(index % 4) + 1}`
 }
 
+function getRecordingOptions() {
+  // whisper-cli accepts ogg directly, so we prefer it when the browser supports it.
+  // If not, we fall back to the browser default and let the backend report clearly
+  // whether that format is usable by the local transcription service.
+  const preferredMimeTypes = [
+    'audio/ogg;codecs=opus',
+    'audio/ogg',
+    'audio/webm;codecs=opus',
+    'audio/webm',
+  ]
+
+  const supportedMimeType = preferredMimeTypes.find((mimeType) => {
+    return window.MediaRecorder?.isTypeSupported?.(mimeType)
+  })
+
+  return supportedMimeType ? { mimeType: supportedMimeType } : undefined
+}
+
 function App() {
   const mediaRecorderRef = useRef(null)
   const streamRef = useRef(null)
@@ -86,7 +104,7 @@ function App() {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      const recorder = new MediaRecorder(stream)
+      const recorder = new MediaRecorder(stream, getRecordingOptions())
 
       if (audioUrl) {
         URL.revokeObjectURL(audioUrl)
@@ -274,8 +292,9 @@ function App() {
           <p className="eyebrow">Meeting Intelligence</p>
           <h1>Record a meeting, separate speakers, pull the signal out fast.</h1>
           <p className="hero-text">
-            This MVP records audio in the browser, sends the clip to the API, and returns
-            transcript, summary, decisions, risks, and next actions in one flow.
+            This MVP records audio in the browser, sends the clip through the meeting backend to
+            the audio intelligence API, and returns transcript, summary, decisions, risks, and
+            next actions in one flow.
           </p>
         </div>
 
@@ -300,8 +319,8 @@ function App() {
             </article>
           </div>
           <p className="hero-note">
-            Analyze meeting uploads the real recording to the backend. Demo analysis stays separate
-            and only fills transcript, summary, speakers, and actions with mock data.
+            Analyze meeting now uses the shared audio intelligence service. Demo analysis stays
+            separate and only fills transcript, summary, speakers, and actions with mock data.
           </p>
         </div>
       </section>
