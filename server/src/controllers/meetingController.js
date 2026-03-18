@@ -1,5 +1,5 @@
 import { meetingService } from '../services/meetingService.js';
-import { openaiMeetingAnalysisService } from '../services/openaiMeetingAnalysisService.js';
+import { assemblyAiMeetingAnalysisService } from '../services/assemblyAiMeetingAnalysisService.js';
 import { validateMeetingTitle } from '../utils/validators.js';
 
 export const meetingController = {
@@ -101,12 +101,16 @@ export const meetingController = {
 
             meetingService.markAsProcessing(meeting.id);
 
-            const analysisResult = await openaiMeetingAnalysisService.analyzeMeeting({
+            const analysisResult = await assemblyAiMeetingAnalysisService.analyzeMeeting({
                 title: meeting.title,
                 file: req.file,
             });
 
-            const completedMeeting = meetingService.completeAnalysis(meeting.id, analysisResult, 'live');
+            const completedMeeting = meetingService.completeAnalysis(
+                meeting.id,
+                analysisResult,
+                analysisResult.analysisMode || 'live',
+            );
 
             res.status(201).json({
                 ok: true,

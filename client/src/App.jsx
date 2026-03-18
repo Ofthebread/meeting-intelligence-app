@@ -456,7 +456,9 @@ function App() {
               <span className="meeting-badge">
                 {currentMeeting.analysisMode === 'demo'
                   ? `${currentMeeting.status} · demo`
-                  : currentMeeting.status}
+                  : currentMeeting.analysisMode === 'live-fallback'
+                    ? `${currentMeeting.status} · fallback`
+                    : currentMeeting.status}
               </span>
             ) : null}
           </div>
