@@ -148,6 +148,23 @@ export const meetingController = {
             },
         });
     },
+    deleteMeeting(req, res) {
+        const { id } = req.params;
+        const deletedMeeting = meetingService.remove(id);
+
+        if (!deletedMeeting) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Meeting not found',
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            message: 'Meeting deleted successfully',
+            data: deletedMeeting,
+        });
+    },
     updateMeeting(req, res) {
         const { id } = req.params;
         const { title } = req.body;

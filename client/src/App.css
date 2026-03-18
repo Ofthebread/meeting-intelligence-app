@@ -381,18 +381,46 @@
 
 .history-item {
   display: grid;
-  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
   width: 100%;
+  background: var(--surface);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.history-select {
+  display: grid;
+  gap: 6px;
   padding: 14px 16px;
   text-align: left;
   cursor: pointer;
   color: var(--text-strong);
-  background: var(--surface);
+}
+
+.history-select,
+.history-delete {
+  border: 0;
+  background: transparent;
 }
 
 .history-item span {
   text-transform: capitalize;
   color: var(--text-muted);
+}
+
+.history-delete {
+  align-self: center;
+  margin-right: 12px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.history-delete:hover {
+  color: var(--danger);
+  background: rgba(255, 95, 109, 0.08);
 }
 
 .history-item.active {
@@ -402,6 +430,69 @@
 .overview {
   margin: 0 0 18px;
   color: var(--text-strong);
+}
+
+.overview-expandable summary {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.expandable-item {
+  display: grid;
+  gap: 10px;
+}
+
+.expandable-item summary {
+  cursor: pointer;
+  list-style: none;
+  color: var(--text-strong);
+}
+
+.expandable-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.expandable-item summary::after {
+  content: 'Ver más';
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.expandable-item[open] summary::after {
+  content: 'Ver menos';
+}
+
+.expandable-item p {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.clamped-static {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.clamped-item {
+  margin-top: 12px;
+}
+
+.clamped-item summary {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-height: 1.7;
+}
+
+.transcript-expandable p {
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .panel-note {

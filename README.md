@@ -1,177 +1,110 @@
-# 🎙️ Meeting Intelligence App - MVP
+# Meeting Intelligence App
 
-A web application that records meetings, identifies speakers, summarizes key points, and suggests action items.
+Web app for recording meetings, sending the audio to a separate transcription service, and showing transcript, summary, speaker stats, and action items.
 
-## ✨ Features
+This repository is the product app. Audio transcription and basic insights now live in a separate repo: `audio-intelligence-api`.
 
-- 🔴 **Audio Recording** - Record meetings directly in the browser
-- 👥 **Speaker Identification** - Separate speakers in transcripts (demo mode)
-- 📝 **Live Transcription** - Real-time transcript display
-- 🤖 **AI Summary** - Automatic key point extraction and summarization
-- ⚡ **Action Items** - Suggested next steps with owners and due dates
-- 📊 **Speaker Analytics** - Participation statistics and speaking time
-- 💾 **Meeting History** - Save and revisit past meetings
-- 📤 **Export** - Download meeting data as JSON
+## Current Flow
 
-## 🚀 Quick Start
+- the browser records audio with `MediaRecorder`
+- the app backend receives the upload
+- the backend forwards the file to `audio-intelligence-api`
+- `audio-intelligence-api` converts browser audio when needed and runs local Whisper
+- the result comes back as transcript, summary, actions, and speaker stats
 
-### Prerequisites
+Demo analysis still exists, but it is separate from the real audio flow.
 
-- Node.js 18+
-- npm or yarn
+## Repositories
 
-### Installation
+- `meeting-intelligence-app`: frontend + product backend
+- `audio-intelligence-api`: reusable audio/transcription service
 
-1. **Clone and navigate to the project:**
+The app backend expects the audio API at `http://127.0.0.1:4100` by default.
 
-    ```bash
-    cd meeting-intelligence-app
-    ```
+## Quick Start
 
-2. **Install server dependencies:**
+### 1. Install dependencies
 
-    ```bash
-    cd server
-    npm install
-    ```
+From this repo:
 
-3. **Install client dependencies:**
+```bash
+npm install
+npm install --prefix client
+npm install --prefix server
+```
 
-    ```bash
-    cd ../client
-    npm install
-    ```
+The separate `audio-intelligence-api` repo also needs its own dependencies installed.
 
-4. **Start the backend server:**
+### 2. Configure env
 
-    ```bash
-    cd ../server
-    npm run dev
-    ```
-
-    Server runs on http://127.0.0.1:4000
-
-5. **Start the frontend (in a new terminal):**
-    ```bash
-    cd ../client
-    npm run dev
-    ```
-    Client runs on http://127.0.0.1:5173
-
-## 🎯 How to Use
-
-1. **Open the app** at http://127.0.0.1:5173
-2. **Enter a meeting title** in the text field
-3. **Click "Start recording"** and grant microphone permissions
-4. **Record your meeting** - the timer shows recording duration
-5. **Click "Stop recording"** when finished
-6. **Choose analysis mode:**
-    - **"Run demo analysis"** - Uses sample data (works without API keys)
-    - **"Analyze meeting"** - Uploads audio for real AI processing (requires OpenAI API key)
-
-## 🔧 Configuration
-
-### For Real AI Analysis
-
-Copy the example env file first:
+Copy the server env file:
 
 ```bash
 cp server/.env.example server/.env
 ```
 
-Then add your AssemblyAI API key to `server/.env`:
+The important variable is:
 
+```env
+AUDIO_INTELLIGENCE_API_URL=http://127.0.0.1:4100
 ```
-ASSEMBLYAI_API_KEY=...
+
+### 3. Start everything
+
+From the root of this repo:
+
+```bash
+npm run dev
 ```
 
-### API Key Safety
+That command starts:
 
-- Keep `ASSEMBLYAI_API_KEY` only in `server/.env`
-- Never put secrets in the frontend or in `VITE_*` variables
-- Never commit `.env` files
-- If a key is ever pasted into chat, screenshots, or code, revoke it immediately and create a new one
-- Use service-account or restricted keys for app backends when possible
+- `audio-intelligence-api`
+- the meeting app backend on `http://127.0.0.1:4000`
+- the frontend on `http://127.0.0.1:5173`
 
-### Environment Variables
+## How To Use
 
-- `PORT` - Server port (default: 4000)
-- `CLIENT_URL` - Frontend URL (default: http://127.0.0.1:5173)
-- `ASSEMBLYAI_API_KEY` - Your AssemblyAI API key (optional for demo mode)
+1. Open `http://127.0.0.1:5173`
+2. Enter a meeting title
+3. Start recording
+4. Stop recording
+5. Click `Analyze meeting` for the real local pipeline
+6. Use `Run demo analysis` only for mock data
 
-## 🏗️ Architecture
+## Environment
 
-### Frontend (React + Vite)
+Real config for this app lives in:
 
-- **Audio Recording:** Web Audio API + MediaRecorder
-- **State Management:** React hooks
-- **Styling:** Custom CSS with animations
-- **API Calls:** Fetch API
+- [server/.env.example](/Users/angeladelpan/Desktop/meeting-intelligence-app/meeting-intelligence-app/server/.env.example)
+- `server/.env`
 
-### Backend (Node.js + Express)
+Audio service config lives in the separate `audio-intelligence-api` repo.
 
-- **Audio Processing:** Multer for file uploads
-- **AI Integration:** AssemblyAI transcription + LeMUR analysis
-- **Data Storage:** In-memory (for MVP)
-- **File Storage:** Local uploads directory
+## API Endpoints
 
-## 📁 Project Structure
+- `GET /api/health`
+- `GET /api/meetings`
+- `GET /api/meetings/:id`
+- `POST /api/meetings`
+- `POST /api/meetings/analyze`
+- `POST /api/meetings/:id/process-demo`
+- `PATCH /api/meetings/:id`
+- `GET /api/meetings/:id/export`
 
-```
+## Current Limitations
+
+- meetings are stored in memory
+- speaker diarization is not implemented yet
+- speaker timeline is estimated from transcript segments, not real speaker turns
+- key points still come from a simple fallback heuristic in the audio service
+
+## Project Structure
+
+```text
 meeting-intelligence-app/
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── App.jsx        # Main app component
-│   │   └── App.css        # Styling
-│   └── package.json
-├── server/                 # Node.js backend
-│   ├── src/
-│   │   ├── controllers/   # Route handlers
-│   │   ├── services/      # Business logic
-│   │   ├── routes/        # API routes
-│   │   └── data/          # Demo data
-│   └── package.json
+├── client/
+├── server/
+├── package.json
 └── README.md
 ```
-
-## 🔮 MVP Limitations
-
-- **Storage:** Meetings stored in memory (lost on restart)
-- **AI:** Real analysis requires AssemblyAI API key
-- **Speaker ID:** Demo mode only (no real diarization)
-- **Audio:** No audio compression or cloud storage
-- **Auth:** No user authentication
-
-## 🚧 Roadmap (Future Enhancements)
-
-- [ ] Persistent database storage
-- [ ] Real-time speaker diarization
-- [ ] Cloud audio storage (AWS S3)
-- [ ] User authentication
-- [ ] Meeting sharing and collaboration
-- [ ] Mobile app
-- [ ] Integration with calendar apps
-- [ ] Export to PDF/Word formats
-
-## 🛠️ Development
-
-### Adding New Features
-
-1. Backend changes: Add routes in `server/src/routes/`
-2. Frontend changes: Modify `client/src/App.jsx`
-3. Test both servers are running
-
-### API Endpoints
-
-- `GET /api/health` - Health check
-- `POST /api/meetings` - Create meeting
-- `GET /api/meetings` - List meetings
-- `GET /api/meetings/:id` - Get meeting details
-- `POST /api/meetings/analyze` - Analyze with audio upload
-- `POST /api/meetings/:id/process-demo` - Demo analysis
-- `PATCH /api/meetings/:id` - Update meeting
-- `GET /api/meetings/:id/export` - Export meeting data
-
-## 📄 License
-
-This project is for educational and demonstration purposes.

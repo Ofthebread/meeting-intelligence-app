@@ -94,4 +94,12 @@ export const meetingService = {
 
         return meeting;
     },
+    remove(id) {
+        const meetingIndex = meetings.findIndex((item) => item.id === id);
+
+        if (meetingIndex === -1) return null;
+
+        const [removedMeeting] = meetings.splice(meetingIndex, 1);
+        return removedMeeting;
+    },
 };

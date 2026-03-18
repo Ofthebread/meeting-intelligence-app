@@ -13,6 +13,72 @@ function getSpeakerTone(index) {
   return `tone-${(index % 4) + 1}`
 }
 
+function getPreviewText(text, maxWords = 12) {
+  const normalized = text.replace(/\s+/g, ' ').trim()
+  const firstSentence = normalized.match(/^[^.!?]+[.!?]?/)
+  const sentencePreview = firstSentence?.[0]?.trim() || normalized
+
+  if (sentencePreview.length <= 120) {
+    return sentencePreview
+  }
+
+  const words = sentencePreview.split(' ').filter(Boolean)
+  if (words.length <= maxWords) {
+    return sentencePreview
+  }
+
+  return `${words.slice(0, maxWords).join(' ')}...`
+}
+
+function isExpandableText(text, preview) {
+  return text.replace(/\s+/g, ' ').trim() !== preview.replace(/\s+/g, ' ').trim()
+}
+
+function shouldClampText(text, minLength = 180) {
+  return text.replace(/\s+/g, ' ').trim().length > minLength
+}
+
+function buildTranscriptSnapshot(transcript, maxEntries = 3) {
+  return transcript
+    .slice(0, maxEntries)
+    .map((entry) => entry.text?.replace(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .join(' ')
+}
+
+function renderExpandableText(text, options = {}) {
+  const { maxWords = 12, className = 'expandable-item' } = options
+  const preview = getPreviewText(text, maxWords)
+  const expandable = isExpandableText(text, preview)
+
+  if (!expandable) {
+    return <span>{preview}</span>
+  }
+
+  return (
+    <details className={className}>
+      <summary>{preview}</summary>
+      <p>{text}</p>
+    </details>
+  )
+}
+
+function renderClampedText(text, options = {}) {
+  const { className = 'expandable-item clamped-item' } = options
+  const normalized = text.replace(/\s+/g, ' ').trim()
+
+  if (!shouldClampText(normalized)) {
+    return <p className="clamped-static">{normalized}</p>
+  }
+
+  return (
+    <details className={className}>
+      <summary>{normalized}</summary>
+      <p>{normalized}</p>
+    </details>
+  )
+}
+
 function getRecordingOptions() {
   // whisper-cli accepts ogg directly, so we prefer it when the browser supports it.
   // If not, we fall back to the browser default and let the backend report clearly
@@ -47,6 +113,7 @@ function App() {
     loadMeeting,
     processDemo,
     updateMeetingTitle,
+    deleteMeeting,
     exportMeeting,
     setError,
   } = useMeetings()
@@ -239,6 +306,22 @@ function App() {
     }
   }
 
+  async function handleDeleteMeeting(meetingId) {
+    const confirmed = window.confirm('Delete this meeting from the history?')
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      setStatusText('Deleting meeting from history')
+      await deleteMeeting(meetingId)
+      setStatusText('Meeting deleted')
+    } catch {
+      setStatusText('Unable to delete meeting')
+    }
+  }
+
   const analyzeDisabledReason = loading
     ? 'Wait for the current request to finish.'
     : isRecording
@@ -262,6 +345,7 @@ function App() {
   const actions = currentMeeting?.actions || []
   const summary = currentMeeting?.summary
   const speakerAnalysis = currentMeeting?.speakerAnalysis || null
+  const transcriptSnapshot = buildTranscriptSnapshot(transcript)
   const displayedDuration = isRecording
     ? recordingSeconds
     : audioMeta?.durationSeconds || currentMeeting?.recording?.durationSeconds || 0
@@ -449,15 +533,26 @@ function App() {
                 .slice()
                 .reverse()
                 .map((meeting) => (
-                  <button
+                  <div
                     key={meeting.id}
                     className={`history-item ${currentMeeting?.id === meeting.id ? 'active' : ''}`}
-                    onClick={() => loadMeeting(meeting.id)}
-                    type="button"
                   >
-                    <strong>{meeting.title}</strong>
-                    <span>{meeting.status}</span>
-                  </button>
+                    <button
+                      className="history-select"
+                      onClick={() => loadMeeting(meeting.id)}
+                      type="button"
+                    >
+                      <strong>{meeting.title}</strong>
+                      <span>{meeting.status}</span>
+                    </button>
+                    <button
+                      className="history-delete"
+                      onClick={() => handleDeleteMeeting(meeting.id)}
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 ))
             )}
           </div>
@@ -484,13 +579,27 @@ function App() {
 
           {summary ? (
             <>
-              <p className="overview">{summary.overview}</p>
+              <div className="overview">
+                {renderExpandableText(summary.overview, {
+                  maxWords: 16,
+                  className: 'expandable-item overview-expandable',
+                })}
+              </div>
+
+              {transcriptSnapshot ? (
+                <div className="list-block">
+                  <h3>Transcripción breve</h3>
+                  {renderClampedText(transcriptSnapshot, {
+                    className: 'expandable-item clamped-item transcript-expandable',
+                  })}
+                </div>
+              ) : null}
 
               <div className="list-block">
                 <h3>Key points</h3>
                 <ul>
                   {summary.keyPoints.map((point) => (
-                    <li key={point}>{point}</li>
+                    <li key={point}>{renderExpandableText(point)}</li>
                   ))}
                 </ul>
               </div>

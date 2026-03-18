@@ -20,6 +20,8 @@ router.get('/meetings/:id/export', meetingController.exportMeeting);
 router.post('/meetings/:id/process-demo', meetingController.processDemoMeeting);
 // Actualiza una reunión existente por su ID. Usa PATCH para modificaciones parciales
 router.patch('/meetings/:id', meetingController.updateMeeting);
+// Elimina una reunión del historial en memoria.
+router.delete('/meetings/:id', meetingController.deleteMeeting);
 
 // Additional endpoints (e.g., update title) can be added here
 

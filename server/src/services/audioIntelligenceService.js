@@ -32,7 +32,7 @@ function normalizeSpeakerAnalysis(job) {
 }
 
 export const audioIntelligenceService = {
-    async analyzeMeeting({ title, file, language = 'auto' }) {
+    async analyzeMeeting({ title, file, language = 'es' }) {
         const formData = new FormData();
 
         formData.append('title', title);

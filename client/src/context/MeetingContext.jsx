@@ -152,6 +152,36 @@ export const MeetingProvider = ({ children }) => {
         }
     };
 
+    const deleteMeeting = async (id) => {
+        try {
+            setLoading(true);
+            setError(null);
+            await meetingApi.deleteMeeting(id);
+
+            let nextCurrentMeeting = null;
+
+            setMeetings((prev) => {
+                const remainingMeetings = prev.filter((meeting) => meeting.id !== id);
+                nextCurrentMeeting = remainingMeetings.at(-1) || null;
+                return remainingMeetings;
+            });
+
+            setCurrentMeeting((current) => {
+                if (current?.id !== id) {
+                    return current;
+                }
+
+                return nextCurrentMeeting;
+            });
+        } catch (err) {
+            setError('Failed to delete meeting');
+            console.error('Error deleting meeting:', err);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const exportMeeting = async (id) => {
         try {
             setLoading(true);
@@ -179,6 +209,7 @@ export const MeetingProvider = ({ children }) => {
         loadHealth,
         processDemo,
         updateMeetingTitle,
+        deleteMeeting,
         exportMeeting,
         loadMeetings,
         setCurrentMeeting,

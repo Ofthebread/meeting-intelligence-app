@@ -16,6 +16,7 @@ export const meetingApi = {
     getMeeting: (id) => api.get(`/meetings/${id}`),
     createMeeting: (data) => api.post('/meetings', data),
     updateMeeting: (id, data) => api.patch(`/meetings/${id}`, data),
+    deleteMeeting: (id) => api.delete(`/meetings/${id}`),
     processDemo: (id) => api.post(`/meetings/${id}/process-demo`),
     analyzeMeeting: (title, audioFile) => {
         const formData = new FormData();
