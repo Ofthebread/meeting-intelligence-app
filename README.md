@@ -49,18 +49,18 @@ A web application that records meetings, identifies speakers, summarizes key poi
     npm run dev
     ```
 
-    Server runs on http://localhost:4000
+    Server runs on http://127.0.0.1:4000
 
 5. **Start the frontend (in a new terminal):**
     ```bash
     cd ../client
     npm run dev
     ```
-    Client runs on http://localhost:5173
+    Client runs on http://127.0.0.1:5173
 
 ## 🎯 How to Use
 
-1. **Open the app** at http://localhost:5173
+1. **Open the app** at http://127.0.0.1:5173
 2. **Enter a meeting title** in the text field
 3. **Click "Start recording"** and grant microphone permissions
 4. **Record your meeting** - the timer shows recording duration
@@ -79,15 +79,15 @@ Copy the example env file first:
 cp server/.env.example server/.env
 ```
 
-Then add your OpenAI API key to `server/.env`:
+Then add your AssemblyAI API key to `server/.env`:
 
 ```
-OPENAI_API_KEY=sk-...
+ASSEMBLYAI_API_KEY=...
 ```
 
 ### API Key Safety
 
-- Keep `OPENAI_API_KEY` only in `server/.env`
+- Keep `ASSEMBLYAI_API_KEY` only in `server/.env`
 - Never put secrets in the frontend or in `VITE_*` variables
 - Never commit `.env` files
 - If a key is ever pasted into chat, screenshots, or code, revoke it immediately and create a new one
@@ -96,8 +96,8 @@ OPENAI_API_KEY=sk-...
 ### Environment Variables
 
 - `PORT` - Server port (default: 4000)
-- `CLIENT_URL` - Frontend URL (default: http://localhost:5173)
-- `OPENAI_API_KEY` - Your OpenAI API key (optional for demo mode)
+- `CLIENT_URL` - Frontend URL (default: http://127.0.0.1:5173)
+- `ASSEMBLYAI_API_KEY` - Your AssemblyAI API key (optional for demo mode)
 
 ## 🏗️ Architecture
 
@@ -111,7 +111,7 @@ OPENAI_API_KEY=sk-...
 ### Backend (Node.js + Express)
 
 - **Audio Processing:** Multer for file uploads
-- **AI Integration:** OpenAI Whisper (transcription) + GPT-4 (analysis)
+- **AI Integration:** AssemblyAI transcription + LeMUR analysis
 - **Data Storage:** In-memory (for MVP)
 - **File Storage:** Local uploads directory
 
@@ -137,7 +137,7 @@ meeting-intelligence-app/
 ## 🔮 MVP Limitations
 
 - **Storage:** Meetings stored in memory (lost on restart)
-- **AI:** Real analysis requires OpenAI API key
+- **AI:** Real analysis requires AssemblyAI API key
 - **Speaker ID:** Demo mode only (no real diarization)
 - **Audio:** No audio compression or cloud storage
 - **Auth:** No user authentication

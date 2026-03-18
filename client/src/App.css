@@ -365,6 +365,12 @@
   color: var(--danger);
 }
 
+.helper-note {
+  margin-top: 14px;
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
+
 .history-list,
 .speaker-list,
 .action-list,

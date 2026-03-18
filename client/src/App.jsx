@@ -221,6 +221,16 @@ function App() {
     }
   }
 
+  const analyzeDisabledReason = loading
+    ? 'Wait for the current request to finish.'
+    : isRecording
+      ? 'Stop recording before analyzing.'
+      : meetingTitle.trim().length === 0
+        ? 'Add a meeting title first.'
+        : !audioBlob
+          ? 'Record and stop an audio clip first.'
+          : ''
+
   const canAnalyze = !loading && !isRecording && meetingTitle.trim().length > 0 && Boolean(audioBlob)
   const canRunDemo = !loading && !isRunningDemo && !isRecording && Boolean(currentMeeting?.id)
   const canUpdateTitle =
@@ -326,6 +336,7 @@ function App() {
               className="secondary-button"
               onClick={handleAnalyzeMeeting}
               disabled={!canAnalyze}
+              title={analyzeDisabledReason}
             >
               Analyze meeting
             </button>
@@ -396,6 +407,10 @@ function App() {
             </div>
           ) : null}
 
+          {!canAnalyze && analyzeDisabledReason ? (
+            <p className="helper-note">{analyzeDisabledReason}</p>
+          ) : null}
+
           {error ? <p className="error-banner">{error}</p> : null}
         </div>
 
@@ -441,7 +456,9 @@ function App() {
               <span className="meeting-badge">
                 {currentMeeting.analysisMode === 'demo'
                   ? `${currentMeeting.status} · demo`
-                  : currentMeeting.status}
+                  : currentMeeting.analysisMode === 'live-fallback'
+                    ? `${currentMeeting.status} · fallback`
+                    : currentMeeting.status}
               </span>
             ) : null}
           </div>
